@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "../shared/form/Form";
 import Input from "../shared/input/Input";
 import Select from "../shared/select/Select";
-import { income } from "../data/selectOptions";
+import { income, currency } from "../data/selectOptions";
 import moment from "moment";
 import CardTitle from "../shared/cardTitle/CardTitle";
 
@@ -10,8 +10,9 @@ class CardIncome extends Component {
   state = {
     date: moment(Date.now()).format("YYYY-MM-DD"),
     time: moment(Date.now()).format("HH:mm"),
-    outlay: "",
+    income: "",
     total: "",
+    currency: "",
   };
 
   onHandlerChange = (e) => {
@@ -40,7 +41,7 @@ class CardIncome extends Component {
             onChange={this.onHandlerChange}
           />
           <Select
-            value={this.state.outlay}
+            value={this.state.income}
             sets={income}
             onChange={this.onHandlerChange}
           />
@@ -51,6 +52,7 @@ class CardIncome extends Component {
             placeholder="Enter price"
             onChange={this.onHandlerChange}
           />
+          <Select sets={currency} onChange={this.onHandlerChange} />
         </Form>
       </>
     );

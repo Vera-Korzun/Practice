@@ -39,6 +39,15 @@ class App extends Component {
         )}
         <hr />
         {incomeIsOpen && <CardIncome />}
+
+        {/* <Home togglleSpendings={this.togglleSpendings} />
+        <hr />
+        <CardSpendings
+          togglleSpendings={this.togglleSpendings}
+          onHandlerSubmit={this.onHandlerSubmit}
+        />
+        <hr />
+        <CardIncome /> */}
       </>
     );
   }

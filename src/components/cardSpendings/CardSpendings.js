@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "../shared/form/Form";
 import Input from "../shared/input/Input";
 import Select from "../shared/select/Select";
-import { outlay } from "../data/selectOptions";
+import { outlay, currency } from "../data/selectOptions";
 import moment from "moment";
 import CardTitle from "../shared/cardTitle/CardTitle";
 
@@ -31,6 +31,7 @@ class CardSpendings extends Component {
       time: moment(Date.now()).format("HH:mm"),
       outlay: "",
       total: "",
+      currency: "",
     });
   };
 
@@ -69,6 +70,7 @@ class CardSpendings extends Component {
             placeholder="Enter price"
             onChange={this.onHandlerChange}
           />
+          <Select sets={currency} onChange={this.onHandlerChange} />
         </Form>
       </>
     );
