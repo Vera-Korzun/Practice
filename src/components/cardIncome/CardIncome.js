@@ -8,6 +8,7 @@ import CardTitle from "../shared/cardTitle/CardTitle";
 
 class CardIncome extends Component {
   state = {
+    cardId: "income",
     date: moment(Date.now()).format("YYYY-MM-DD"),
     time: moment(Date.now()).format("HH:mm"),
     income: "",
@@ -20,12 +21,30 @@ class CardIncome extends Component {
     this.setState({ [name]: value });
   };
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { cardId, ...data } = this.state;
+    console.log(cardId, data);
+    this.props.onHandlerSubmit({ key: cardId, data });
+    this.resetState();
+  };
+
+  resetState = () => {
+    this.setState({
+      date: moment(Date.now()).format("YYYY-MM-DD"),
+      time: moment(Date.now()).format("HH:mm"),
+      income: "",
+      total: "",
+      currency: "",
+    });
+  };
+
   render() {
-    console.log(this.state);
+    //console.log(this.state);
     return (
       <>
-        <Form>
-          <CardTitle title="Доходы" />
+        <Form onSubmit={this.onSubmit}>
+          <CardTitle title="Доходы" togglleCard={this.props.togglleIncome} />
           <Input
             title="Day"
             type="date"

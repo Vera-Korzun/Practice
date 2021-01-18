@@ -8,10 +8,12 @@ import CardTitle from "../shared/cardTitle/CardTitle";
 
 class CardSpendings extends Component {
   state = {
+    cardId: "spending",
     date: moment(Date.now()).format("YYYY-MM-DD"),
     time: moment(Date.now()).format("HH:mm"),
     outlay: "",
     total: "",
+    currency: "",
   };
 
   onHandlerChange = (e) => {
@@ -21,7 +23,9 @@ class CardSpendings extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onHandlerSubmit({ ...this.state });
+    const { cardId, ...data } = this.state;
+    console.log(cardId, data);
+    this.props.onHandlerSubmit({ key: cardId, data: data });
     this.resetState();
   };
 
