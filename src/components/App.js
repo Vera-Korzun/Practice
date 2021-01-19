@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CardIncome from "./cardIncome/CardIncome";
 import CardSpendings from "./cardSpendings/CardSpendings";
 import Home from "./home/Home";
+import SpandingList from "./spandingList/SpandingList";
 
 class App extends Component {
   state = {
@@ -95,6 +96,8 @@ class App extends Component {
             onHandlerSubmit={this.onHandlerSubmit}
           />
         )}
+        <hr />
+        <SpandingList spendData={spendData} />
 
         {/* <Home togglleSpendings={this.togglleSpendings} />
         <hr />

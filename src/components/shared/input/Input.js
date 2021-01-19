@@ -10,7 +10,7 @@ const Input = ({
 }) => {
   return (
     <label>
-      {title}
+      {title && title}
       <input
         type={type}
         placeholder={placeholder}

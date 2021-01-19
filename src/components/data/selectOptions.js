@@ -3,13 +3,14 @@ export const outlay = {
   name: "outlay",
   options: [
     {
-      value: "food",
-      title: "Еда",
-    },
-    {
       value: "beverages",
       title: "Напитки",
     },
+    {
+      value: "food",
+      title: "Еда",
+    },
+
     {
       value: "clothes",
       title: "Одежда",
@@ -49,6 +50,28 @@ export const currency = {
     {
       value: "hrn",
       title: "HRN",
+    },
+  ],
+};
+
+export const spendingList = {
+  name: "spendingList",
+  options: [
+    {
+      value: "day",
+      title: "День",
+    },
+    {
+      value: "week",
+      title: "Неделя",
+    },
+    {
+      value: "month",
+      title: "Месяц",
+    },
+    {
+      value: "year",
+      title: "Год",
     },
   ],
 };
