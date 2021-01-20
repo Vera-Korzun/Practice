@@ -5,6 +5,7 @@ import Section from "../shared/section/Section";
 
 const Home = ({ togglleSpendings, togglleIncome, spending, income }) => {
   const counter = new CountTotal();
+  //console.log("spending", spending);
 
   return (
     <Section>

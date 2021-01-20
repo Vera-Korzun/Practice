@@ -3,6 +3,7 @@ import CardIncome from "./cardIncome/CardIncome";
 import CardSpendings from "./cardSpendings/CardSpendings";
 import Home from "./home/Home";
 import SpandingList from "./spandingList/SpandingList";
+import ApiServicesClass from "../services/apiServicesClass";
 
 class App extends Component {
   state = {
@@ -12,29 +13,23 @@ class App extends Component {
     spendData: [],
     incomeData: [],
   };
-  componentDidMount() {
-    const spending = localStorage.getItem("spending");
-    const income = localStorage.getItem("income");
+
+  api = new ApiServicesClass();
+
+  async componentDidMount() {
+    const spending = await this.api.getSpending();
+    const income = await this.api.getIncome();
     if (spending) {
       this.setState({
-        spendData: JSON.parse(spending),
+        spendData: spending,
       });
     }
     if (income) {
       this.setState({
-        incomeData: JSON.parse(income),
+        incomeData: income,
       });
     }
   }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.spendData !== this.state.spendData) {
-      localStorage.setItem("spending", JSON.stringify(this.state.spendData));
-    }
-    if (prevState.incomeData !== this.state.incomeData) {
-      localStorage.setItem("income", JSON.stringify(this.state.incomeData));
-    }
-  };
 
   togglleSpendings = () => {
     this.setState((prevState) => ({
@@ -50,15 +45,16 @@ class App extends Component {
     }));
   };
 
-  onHandlerSubmit = ({ key, data }) => {
+  onHandlerSubmit = async ({ key, data }) => {
+    const responseData = await this.api.post(key, data);
     if (key === "spending") {
       this.setState((prev) => ({
-        spendData: [...prev.spendData, data],
+        spendData: [...prev.spendData, responseData],
       }));
       this.togglleSpendings();
     } else if (key === "income") {
       this.setState((prev) => ({
-        incomeData: [...prev.incomeData, data],
+        incomeData: [...prev.incomeData, responseData],
       }));
       this.togglleIncome();
     }
@@ -97,7 +93,7 @@ class App extends Component {
           />
         )}
         <hr />
-        <SpandingList spendData={spendData} />
+        {spendData.length > 0 && <SpandingList spendData={spendData} />}
 
         {/* <Home togglleSpendings={this.togglleSpendings} />
         <hr />
