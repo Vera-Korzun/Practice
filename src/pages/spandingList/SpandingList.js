@@ -1,27 +1,31 @@
 import React, { useState } from "react";
-import Button from "../shared/button/Button";
-import Section from "../shared/section/Section";
-import Select from "../shared/select/Select";
-import Input from "../shared/input/Input";
-import { spendingList } from "../data/selectOptions";
+import { withRouter } from "react-router-dom";
+import Button from "../../components/shared/button/Button";
+import Section from "../../components/shared/section/Section";
+import Select from "../../components/shared/select/Select";
+import Input from "../../components/shared/input/Input";
+import { spendingList } from "../../utils/data/selectOptions";
 import moment from "moment";
 
-const SpandingList = ({ spendData }) => {
+const SpandingList = ({ spendData, incomeData, match, history }) => {
   const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
+  const { category } = match.params;
 
   const handleDate = (e) => {
     setDate(e.target.value);
   };
 
-  const categoriesResult = (data) => {
+  const goBack = () => history.push("/");
+
+  const categoriesResult = (data, cat) => {
     const uniqCategory = data
-      .map((item) => item.outlay)
+      .map((item) => item[cat])
       .filter((el, index, array) => array.indexOf(el) === index);
     //console.log(uniqCategory);
     return uniqCategory
       .map((category) =>
         data
-          .filter((element) => element.outlay === category)
+          .filter((element) => element[cat] === category)
           .reduce((acc, obj) => {
             const total = Number(obj.total);
             return {
@@ -34,12 +38,17 @@ const SpandingList = ({ spendData }) => {
   };
 
   //console.log(categoriesResult(spendData));
-  const categorieList = categoriesResult(spendData);
+  const categorieList =
+    category === "income"
+      ? categoriesResult(incomeData, category)
+      : category === "outlay"
+      ? categoriesResult(spendData, category)
+      : [];
 
   return (
     <Section>
       <header>
-        <Button title="Go back" />
+        <Button title="Go back" onClick={goBack} />
         <Select sets={spendingList} />
       </header>
       <Button title="Go left" />
@@ -59,4 +68,4 @@ const SpandingList = ({ spendData }) => {
   );
 };
 
-export default SpandingList;
+export default withRouter(SpandingList);

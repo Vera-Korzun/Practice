@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import CardIncome from "./cardIncome/CardIncome";
-import CardSpendings from "./cardSpendings/CardSpendings";
-import Home from "./home/Home";
-import SpandingList from "./spandingList/SpandingList";
+import { Route, Switch, Redirect } from "react-router-dom";
+import CardIncome from "../pages/cardIncome/CardIncome";
+import CardSpendings from "../pages/cardSpendings/CardSpendings";
+import Home from "../pages/home/Home";
+import SpandingList from "../pages/spandingList/SpandingList";
 import ApiServicesClass from "../services/apiServicesClass";
 
 class App extends Component {
@@ -45,6 +46,10 @@ class App extends Component {
     }));
   };
 
+  goBack = () => {
+    this.props.history.push("/");
+  };
+
   onHandlerSubmit = async ({ key, data }) => {
     const responseData = await this.api.post(key, data);
     if (key === "spending") {
@@ -61,49 +66,55 @@ class App extends Component {
   };
 
   render() {
-    const {
-      incomeIsOpen,
-      spendIsOpen,
-      home,
-      spendData,
-      incomeData,
-    } = this.state;
+    //console.log(this.props);
+    const { spendData, incomeData } = this.state;
     return (
-      <>
-        {home && (
-          <Home
-            spending={spendData}
-            income={incomeData}
-            togglleSpendings={this.togglleSpendings}
-            togglleIncome={this.togglleIncome}
-          />
-        )}
-        <hr />
-        {spendIsOpen && (
-          <CardSpendings
-            togglleSpendings={this.togglleSpendings}
-            onHandlerSubmit={this.onHandlerSubmit}
-          />
-        )}
-        <hr />
-        {incomeIsOpen && (
-          <CardIncome
-            togglleIncome={this.togglleIncome}
-            onHandlerSubmit={this.onHandlerSubmit}
-          />
-        )}
-        <hr />
-        {spendData.length > 0 && <SpandingList spendData={spendData} />}
-
-        {/* <Home togglleSpendings={this.togglleSpendings} />
-        <hr />
-        <CardSpendings
-          togglleSpendings={this.togglleSpendings}
-          onHandlerSubmit={this.onHandlerSubmit}
+      <Switch>
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <Home
+              spending={spendData}
+              income={incomeData}
+              togglleSpendings={this.togglleSpendings}
+              togglleIncome={this.togglleIncome}
+              {...props}
+            />
+          )}
         />
-        <hr />
-        <CardIncome /> */}
-      </>
+        <Route
+          path="/spending"
+          render={(props) => (
+            <CardSpendings
+              togglleSpendings={this.togglleSpendings}
+              onHandlerSubmit={this.onHandlerSubmit}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path="/income"
+          render={(props) => (
+            <CardIncome
+              togglleIncome={this.togglleIncome}
+              onHandlerSubmit={this.onHandlerSubmit}
+              {...props}
+            />
+          )}
+        />
+        <Route
+          path="/list/:category"
+          render={(props) => (
+            <SpandingList
+              incomeData={incomeData}
+              spendData={spendData}
+              {...props}
+            />
+          )}
+        />
+        <Redirect to="/" />
+      </Switch>
     );
   }
 }

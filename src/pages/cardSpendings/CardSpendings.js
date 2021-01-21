@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import Form from "../shared/form/Form";
-import Input from "../shared/input/Input";
-import Select from "../shared/select/Select";
-import { income, currency } from "../data/selectOptions";
+import Form from "../../components/shared/form/Form";
+import Input from "../../components/shared/input/Input";
+import Select from "../../components/shared/select/Select";
+import { outlay, currency } from "../../utils/data/selectOptions";
 import moment from "moment";
-import CardTitle from "../shared/cardTitle/CardTitle";
+import CardTitle from "../../components/shared/cardTitle/CardTitle";
 
-class CardIncome extends Component {
+class CardSpendings extends Component {
   state = {
-    cardId: "income",
+    cardId: "spending",
     date: moment(Date.now()).format("YYYY-MM-DD"),
     time: moment(Date.now()).format("HH:mm"),
-    income: income.options[0].value,
+    outlay: outlay.options[0].value,
     total: "",
     currency: currency.options[0].value,
   };
@@ -24,27 +24,31 @@ class CardIncome extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { cardId, ...data } = this.state;
-    console.log(cardId, data);
-    this.props.onHandlerSubmit({ key: cardId, data });
+    //console.log(cardId, data);
+    this.props.onHandlerSubmit({ key: cardId, data: data });
     this.resetState();
+    this.props.history.push({ pathname: "/" });
   };
 
   resetState = () => {
     this.setState({
       date: moment(Date.now()).format("YYYY-MM-DD"),
       time: moment(Date.now()).format("HH:mm"),
-      income: income.options[0].value,
+      outlay: outlay.options[0].value,
       total: "",
       currency: currency.options[0].value,
     });
   };
 
   render() {
-    //console.log(this.state);
+    // console.log(this.props);
     return (
       <>
         <Form onSubmit={this.onSubmit}>
-          <CardTitle title="Доходы" togglleCard={this.props.togglleIncome} />
+          <CardTitle
+            title="Расходы"
+            togglleCard={this.props.togglleSpendings}
+          />
           <Input
             title="Day"
             type="date"
@@ -60,8 +64,8 @@ class CardIncome extends Component {
             onChange={this.onHandlerChange}
           />
           <Select
-            value={this.state.income}
-            sets={income}
+            value={this.state.outlay}
+            sets={outlay}
             onChange={this.onHandlerChange}
           />
           <Input
@@ -78,4 +82,4 @@ class CardIncome extends Component {
   }
 }
 
-export default CardIncome;
+export default CardSpendings;
